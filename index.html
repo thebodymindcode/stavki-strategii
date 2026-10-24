@@ -56,70 +56,101 @@ details{border-top:1px solid var(--line);padding:12px 0}details summary{cursor:p
 .foot{color:var(--mute);font-size:14px;padding:40px 0 60px;border-top:1px solid var(--line);margin-top:60px}
 .note{background:var(--amber2);border:1px solid #f5dfae;border-radius:14px;padding:14px 16px;font-size:15px;color:#6b4a06}
 .ok-note{background:var(--green2);border:1px solid #bfe8d0;border-radius:14px;padding:14px 16px;font-size:15px;color:#145a36}
+.funnel{display:grid;gap:8px}.frow{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 16px;box-shadow:var(--sh)}
+.frow .fb{height:14px;border-radius:999px;background:var(--blue2);overflow:hidden;margin-top:8px}.frow .fb i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),#6b8cf0);border-radius:999px}
+.frow .fn{font-size:26px;font-weight:800;letter-spacing:-.02em;min-width:90px;text-align:right}.frow .fl{font-weight:700}.frow .fs{color:var(--mute);font-size:13.5px}
+.frow.money{border-color:#bfe8d0;background:var(--green2)}.frow.money .fb i{background:var(--green)}
+.ex{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.ex .c{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--sh);position:relative}
+.ex .c .k{color:var(--mute);font-size:13px;font-weight:700}.ex .c .v{font-size:22px;font-weight:800;letter-spacing:-.02em;margin:4px 0}.ex .c p{margin:0;color:var(--ink2);font-size:14.5px}
+.ladder{display:flex;align-items:flex-end;gap:10px;height:120px;margin:12px 0 6px}.ladder div{flex:1;background:var(--blue2);border:1px solid #cfdafc;border-radius:12px 12px 6px 6px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;font-weight:800;color:var(--blue)}
+.check{display:grid;grid-template-columns:1fr auto;gap:6px 14px;align-items:center;padding:10px 0;border-top:1px solid var(--line);font-size:15.5px}.check:first-child{border-top:0}.check b{font-size:16px}
+.ico{width:44px;height:44px;border-radius:12px;background:var(--blue2);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:10px}
+.insight{border-left:4px solid var(--blue)}.insight .v{font-size:30px;font-weight:800;letter-spacing:-.02em}
+@media (max-width:900px){.ex{grid-template-columns:1fr 1fr}}
 @media (max-width:900px){.g4{grid-template-columns:repeat(2,1fr)}.g3,.steps{grid-template-columns:1fr 1fr}}
-@media (max-width:600px){.g2,.g3,.g4,.steps{grid-template-columns:1fr}section{padding:40px 0 4px}.wrap{padding:0 16px}.card{padding:18px}.chart{height:240px}}
+@media (max-width:600px){.g2,.g3,.g4,.steps,.ex{grid-template-columns:1fr}section{padding:40px 0 4px}.wrap{padding:0 16px}.card{padding:18px}.chart{height:240px}}
 </style>
 </head>
 <body>
 <header class="top"><div class="wrap">
 <div class="logo">Ещё <b>один гол</b></div>
-<nav class="menu"><a href="#kak">Как играем</a><a href="#sila">В силе</a><a href="#test">Тестируем</a><a href="#idei">Идеи</a><a href="#stat">Статистика</a><a href="#zhurnal">Журнал</a><a href="#ligi">Лиги</a></nav>
+<nav class="menu"><a href="#kak">Как играем</a><a href="#dengi">Деньги</a><a href="#sila">Правила</a><a href="#test">Тени</a><a href="#vyvody">Выводы</a><a href="#stat">Статистика</a><a href="#zhurnal">Журнал</a><a href="#slovar">Словарь</a></nav>
 </div></header>
 
 <section id="top"><div class="wrap">
-<span class="tag">Стратегия, обновлено <span id="obnovleno"></span></span>
-<h1>Ставим на ещё один гол в концовке, когда матч к нему готов</h1>
-<p class="lead">Автомат смотрит все живые матчи Olimpbet, пропускает через шесть фильтров и ставит сам. Ниже: правило целиком, что включено сейчас, что проверяем тенью, какие идеи ждут, и вся статистика по базе с фильтрами.</p>
+<span class="tag">обновлено <span id="obnovleno"></span></span>
+<h1>Ставим на ещё один гол в концовке матча</h1>
+<p class="lead">Автомат смотрит все живые матчи, отбирает те, где гол очень вероятен, и ставит сам. Вот как это работает и что из этого выходит.</p>
 <div class="grid g4" id="kpi"></div>
 </div></section>
 
-<section id="kak"><div class="wrap">
-<h2>Как играем: шесть фильтров</h2>
-<p class="sub">Матч должен пройти все шесть. Не прошёл хотя бы один, сигнала нет. Каждый фильтр появился не из головы, а из замера по базе.</p>
-<div class="steps">
-<div class="step"><div class="n">1</div><h3>Турнир из нашего списка</h3><div class="big" id="n-ligi"></div><p>Главные лиги и кубки, вторые дивизионы только у топ-5 (Англия, Германия, Испания, Италия, Франция). Россия только Премьер-лига.</p></div>
-<div class="step"><div class="n">2</div><h3>Минута матча</h3><div class="big">58 – 80′</div><p>Раньше 58-й рано: цена низкая. Позже 80-й поздно: времени на гол почти нет.</p></div>
-<div class="step"><div class="n">3</div><h3>Счёт и фаворит</h3><div class="big">0:0 или 0:1</div><p>0:0 при фаворите до 2,00. 0:1 только если хозяин фаворит до 1,85 и гости забили до 65-й минуты. Счёт 1:1 и всё остальное не играем.</p></div>
-<div class="step"><div class="n">4</div><h3>Матч обещал голы</h3><div class="big">ТБ 2,5 ≤ 1,80</div><p>До матча тотал больше 2,5 стоил не дороже 1,80: букмекер ждал три гола и больше.</p></div>
-<div class="step"><div class="n">5</div><h3>Цена на ещё один гол</h3><div class="big">1,58 – 2,30</div><p>Ниже 1,58 не окупается. Выше 2,30 так не бывает: значит, счёт на сайте отстал, ставить нельзя.</p></div>
-<div class="step"><div class="n">6</div><h3>Разбор Claude по FotMob</h3><div class="big">СТАВИТЬ</div><p>Удары, в створ, xG, большие моменты, последние 15 минут, удаления. «СТАВИТЬ» = деньги. «Сомневаюсь» = карточка без денег. Удаление = пропуск.</p></div>
+<section id="primer"><div class="wrap">
+<h2>Одна ставка на примере</h2>
+<p class="sub">Утрехт – Зволле, 24 октября. Так выглядит каждая наша ставка.</p>
+<div class="ex">
+<div class="c"><div class="k">1. Момент</div><div class="v">79-я минута, 0:1</div><p>Хозяева проигрывают, гости забили на 72-й.</p></div>
+<div class="c"><div class="k">2. Проверка</div><div class="v">Утрехт фаворит 1,59</div><p>Лига из списка, до матча ждали голы, цена на ещё гол 1,82. Claude: «ставить», 62%.</p></div>
+<div class="c"><div class="k">3. Ставка</div><div class="v">4 100 + 8 750</div><p>Сначала догон, следом ярус. Обе на «ещё один гол», по 1,82 и 1,85.</p></div>
+<div class="c" style="background:var(--green2);border-color:#bfe8d0"><div class="k">4. Итог</div><div class="v" style="color:var(--green)">гол на 91-й, +11 273</div><p>Догон закрыт, следующий снова с 1 500.</p></div>
 </div>
-<div style="height:22px"></div>
+</div></section>
+
+<section id="kak"><div class="wrap">
+<h2>Как отбираем матч: воронка за 7 дней</h2>
+<p class="sub">Из тысяч живых матчей до денег доходят единицы. Каждая строка это одна проверка. Не прошёл, выбыл.</p>
+<div class="funnel" id="funnel"></div>
+<div style="height:18px"></div>
+<div class="grid g3">
+<div class="card"><div class="ico">🏆</div><h3>Турнир из списка</h3><p style="margin:0;color:var(--ink2);font-size:15px">Главные лиги и кубки, вторые дивизионы только у топ-5. Мелкие чемпионаты не играем: там гол в концовке реже.</p></div>
+<div class="card"><div class="ico">⚽</div><h3>Счёт и фаворит</h3><p style="margin:0;color:var(--ink2);font-size:15px">0:0 при фаворите до 2,00. Или 0:1, когда хозяин фаворит до 1,85 и гости забили до 65-й. Проигрывающий фаворит давит, гол приходит.</p></div>
+<div class="card"><div class="ico">🧠</div><h3>Разбор Claude</h3><p style="margin:0;color:var(--ink2);font-size:15px">Смотрит удары, xG, моменты за последние 15 минут, удаления. «Ставить» = деньги. «Сомневаюсь» = карточка без денег. Удаление = пропуск.</p></div>
+</div>
+</div></section>
+
+<section id="dengi"><div class="wrap">
+<h2>Сколько ставим</h2>
+<p class="sub">Два банка на одном счёте. На каждый сигнал уходят две ставки подряд.</p>
 <div class="grid g2">
-<div class="card"><h3>Сколько ставим</h3>
-<div class="flow" style="margin:10px 0 14px"><div class="box">Догон<small>1 500 → 4 100 → 11 150, первым</small></div><div class="arrow">+</div><div class="box">Ярус<small>5% от банка ярусов</small></div></div>
-<p style="margin:0;color:var(--ink2);font-size:15.5px">Два отдельных банка на одном счёте. Догон: три ступени, после выигрыша снова с первой. Ярус: 5% от своих денег на каждую ставку. Одновременно не больше трёх открытых ставок. Стоп, если после 20 ставок попаданий меньше 62%.</p></div>
-<div class="card"><h3>Защиты автомата</h3>
-<ul class="list" style="font-size:15.5px">
-<li><span class="t"><b>Цена выше 2,30 в купоне</b> ставка не уходит: счёт у Олимпа не совпадает с данными</span></li>
-<li><span class="t"><b>Вторая сумма на тот же матч</b> идёт, даже если цена упала до 1,55, пока ставилась первая</span></li>
-<li><span class="t"><b>Ставка закрыта через 75 минут</b> после сигнала, не держит очередь</span></li>
-<li><span class="t"><b>Перезапуск только без ставки в работе</b>, правила меняются утром, не во время матчей</span></li>
-</ul></div>
+<div class="card"><h3>Догон: три ступени</h3><p style="margin:0;color:var(--ink2);font-size:15px">Ставится первым. Проиграл, следующая ступень. Выиграл, снова с первой. Три промаха подряд = банк догона сгорел.</p>
+<div class="ladder"><div style="height:30%">1 500</div><div style="height:60%">4 100</div><div style="height:100%">11 150</div></div>
+<div class="row" style="font-size:14px;color:var(--mute)"><span>ступень 1</span><span>ступень 2</span><span>ступень 3</span></div></div>
+<div class="card"><h3>Ярус: 5% от банка</h3><p style="margin:0 0 12px;color:var(--ink2);font-size:15px">Ставится следом. Пять процентов от своих денег на каждую ставку, банк догона не считается.</p>
+<div class="grid g2" style="gap:10px"><div class="card kpi" style="padding:16px"><div class="v" id="bank-yar">…</div><div class="l">банк ярусов сейчас</div></div><div class="card kpi" style="padding:16px"><div class="v" id="yarus-5">…</div><div class="l">следующая ставка, 5%</div></div></div>
+<div style="margin-top:12px;font-size:14.5px;color:var(--ink2)">Не больше трёх открытых ставок сразу. Стоп, если после 20 ставок попаданий меньше 62%.</div></div>
 </div>
 </div></section>
 
 <section id="sila"><div class="wrap">
-<h2>Что в силе сейчас</h2>
-<p class="sub">Период правил P7, с 24.10 вечера. Каждая строка включена словом владельца и записана в журнал.</p>
-<div class="grid g3" id="v-sile"></div>
+<h2>Правила в силе</h2>
+<p class="sub">Период P7, с 24 октября. Меняются только словом владельца, каждое изменение в журнале ниже.</p>
+<div class="card" id="v-sile"></div>
+<div style="height:14px"></div>
+<div class="grid g4">
+<div class="card"><div class="ico">🛑</div><b>Цена выше 2,30</b><div style="color:var(--ink2);font-size:14.5px">Ставка не уходит: счёт у Олимпа отстал.</div></div>
+<div class="card"><div class="ico">🔁</div><b>Вторая сумма до 1,55</b><div style="color:var(--ink2);font-size:14.5px">Если цена упала, пока ставилась первая.</div></div>
+<div class="card"><div class="ico">⏱</div><b>После гола 45 секунд</b><div style="color:var(--ink2);font-size:14.5px">Чтобы не поставить на отменённый гол.</div></div>
+<div class="card"><div class="ico">🔒</div><b>Закрытие через 75 минут</b><div style="color:var(--ink2);font-size:14.5px">Ставка не держит очередь после матча.</div></div>
+</div>
 </div></section>
 
 <section id="test"><div class="wrap">
-<h2>Что тестируем тенью</h2>
-<p class="sub">Тень: автомат отмечает сигнал и смотрит итог, денег нет. Новое правило идёт тенью неделю и получает деньги, только если доказало себя.</p>
+<h2>Что проверяем тенью</h2>
+<p class="sub">Тень: автомат отмечает такой матч и смотрит итог, денег нет. Новое правило живёт тенью неделю и получает деньги, только если доказало себя.</p>
 <div class="grid g2" id="teni-cards"></div>
 </div></section>
 
-<section id="idei"><div class="wrap">
-<h2>Идеи: что ещё можно сделать</h2>
-<p class="sub">Из аудита 24.10. У каждой идеи цифра по базе и состояние.</p>
-<div class="grid g2" id="idei-cards"></div>
+<section id="vyvody"><div class="wrap">
+<h2>Главные выводы по базе</h2>
+<p class="sub">Считается из всех ставок с 9 октября прямо на этой странице.</p>
+<div class="grid g3" id="insights"></div>
+<div style="height:18px"></div>
+<h3>Идеи и их состояние</h3>
+<div class="card" id="idei-cards"></div>
 </div></section>
 
 <section id="stat"><div class="wrap">
-<h2>Статистика по базе</h2>
-<p class="sub">Только наши срезы: счёт, минута, цена, вердикт, лига. Фильтры считают всё заново прямо здесь.</p>
+<h2>Статистика</h2>
+<p class="sub">Выбери вкладку и фильтры: всё пересчитается. «Попаданий» это доля ставок, где гол был. «Чистыми» это выигрыш минус проигрыш в рублях.</p>
 <div class="tabs" id="tabs"><button data-t="yarusy" class="on">Ставки ярусов</button><button data-t="kartochki">Все карточки</button><button data-t="teni">Тени</button><button data-t="dogon">Догон</button></div>
 <div class="filters" id="filters">
 <select id="f-schet"><option value="">Любой счёт</option><option>0:0</option><option>0:1</option><option>1:1</option></select>
@@ -135,26 +166,33 @@ details{border-top:1px solid var(--line);padding:12px 0}details summary{cursor:p
 <div class="card"><h3 id="ch1-t">Банк по ставкам</h3><div class="chart"><canvas id="ch1"></canvas></div></div>
 <div class="card"><h3 id="ch2-t">Попадания по счёту</h3><div class="chart"><canvas id="ch2"></canvas></div></div>
 </div>
-<div class="grid g3" style="margin-bottom:14px" id="razrezy"></div>
+<details class="card" style="padding:12px 22px;margin-bottom:14px"><summary>Подробные разрезы: вердикт, уверенность, минута, цена, страна, час</summary><div class="grid g3" style="margin-top:12px" id="razrezy"></div></details>
 <div class="card"><div class="row"><h3 id="tbl-t">Список</h3><span class="tag" id="tbl-n"></span></div><div class="tbl"><table id="tbl"></table></div></div>
-</div></section>
-
-<section id="voronka"><div class="wrap">
-<h2>Воронка отбора за 7 дней</h2>
-<p class="sub">Сколько живых матчей автомат посмотрел и почему большинство не прошло. Один матч может отпасть по нескольким причинам сразу.</p>
-<div class="card" id="voronka-card"></div>
 </div></section>
 
 <section id="zhurnal"><div class="wrap">
 <h2>Журнал изменений</h2>
-<p class="sub">Каждое изменение правил, с датой. Новое сверху.</p>
+<p class="sub">Новое сверху.</p>
 <div class="card"><ul class="list" id="zhurnal-list"></ul></div>
 </div></section>
 
 <section id="ligi"><div class="wrap">
 <h2>Где играем</h2>
-<p class="sub">Список турниров по странам. Только то, что в белом списке автомата.</p>
 <div class="card" id="ligi-card"></div>
+</div></section>
+
+<section id="slovar"><div class="wrap">
+<h2>Словарь</h2>
+<div class="card">
+<div class="check"><span><b>Ещё один гол</b><br><span style="color:var(--ink2)">ставка «тотал больше»: при 0:0 это ТБ 0,5, при 0:1 это ТБ 1,5. Выигрывает, если забьют хотя бы раз</span></span></div>
+<div class="check"><span><b>Фаворит</b><br><span style="color:var(--ink2)">команда, на победу которой до матча давали не дороже 2,00</span></span></div>
+<div class="check"><span><b>ТБ 2,5 до матча</b><br><span style="color:var(--ink2)">цена на «три гола и больше» до начала. Чем ниже, тем больше голов ждал букмекер</span></span></div>
+<div class="check"><span><b>Ярус</b><br><span style="color:var(--ink2)">ставка в 5% от банка ярусов</span></span></div>
+<div class="check"><span><b>Догон</b><br><span style="color:var(--ink2)">отдельный банк из трёх ступеней 1 500, 4 100, 11 150. После проигрыша ставка растёт, после выигрыша возвращается к первой</span></span></div>
+<div class="check"><span><b>Карточка</b><br><span style="color:var(--ink2)">сигнал в Телеграм с разбором. Деньги уходят, только если Claude сказал «ставить»</span></span></div>
+<div class="check"><span><b>Тень</b><br><span style="color:var(--ink2)">матч, который автомат отметил по новому правилу, но денег не ставил. Так проверяем идею неделю</span></span></div>
+<div class="check"><span><b>Попаданий</b><br><span style="color:var(--ink2)">доля ставок, где гол был. Для цены 1,60 безубыток это 63%</span></span></div>
+</div>
 </div></section>
 
 <div class="wrap"><div class="foot">Данные выгружаются из базы автомата скриптом, цифры посчитаны, не прикинуты. Страница закрыта от поисковиков. Обновлено <span id="obnovleno2"></span>.</div></div>
@@ -211,25 +249,29 @@ function tagCls(s){return {ok:'ok',no:'no',test:'test',wait:'wait'}[s]||''}
 
 function renderStatic(){
  document.getElementById('obnovleno').textContent=D.obnovleno; document.getElementById('obnovleno2').textContent=D.obnovleno;
- const nl=Object.values(D.ligi).reduce((a,b)=>a+b.length,0); document.getElementById('n-ligi').textContent=nl+' турниров';
  const y=D.yarusy, w=y.filter(x=>x.win).length, ch=y.reduce((a,b)=>a+b.chistymi,0), dg=D.dogon.reduce((a,b)=>a+b.chistymi,0);
- document.getElementById('kpi').innerHTML=kpiCard(y.length,'ставок ярусов с 09.10')+kpiCard(pct(w,y.length),'попаданий')+kpiCard(sign(ch)+' ₽','чистыми по ярусам',ch>=0?'up':'down')+kpiCard(sign(dg)+' ₽','чистыми по догону',dg>=0?'up':'down');
- document.getElementById('v-sile').innerHTML=SILA.map(s=>`<div class="card"><span class="tag ${tagCls(s[3])}">в силе · ${s[2]}</span><h3 style="margin-top:12px">${s[0]}</h3><p style="margin:0;color:var(--ink2);font-size:15.5px">${s[1]}</p></div>`).join('');
- // тени
- const groups={};
- D.teni.forEach(t=>{const k=t.tip+(t.schet==='1:1'?'':' '+t.schet); (groups[k]=groups[k]||[]).push(t)});
- const tcards=[['1:1 в лигах списка','Счёт 1:1 с фаворитом, вердикт «СТАВИТЬ». С 16.10 тенью. 24.10 днём получал деньги и дал одну проигранную ставку (Шеффилд), снова тень.',D.teni.filter(t=>t.schet==='1:1')],
-  ['0:0 в лигах вне списка','Главные лиги 34 стран, фаворит до 1,50, без разбора. Деньги получало один день (24.10), снова тень.',D.teni.filter(t=>t.tip==='вне списка'&&t.schet==='0:0')],
+ document.getElementById('kpi').innerHTML=kpiCard(y.length,'ставок ярусов с 9 октября')+kpiCard(pct(w,y.length),'попаданий (гол был)')+kpiCard(sign(ch)+' ₽','чистыми по ярусам',ch>=0?'up':'down')+kpiCard(sign(dg)+' ₽','чистыми по догону',dg>=0?'up':'down');
+ const st=D.voronka.stupeni, mx=st[0][1];
+ document.getElementById('funnel').innerHTML=st.map((s,i)=>{const last=i===st.length-1; const prev=i?st[i-1][1]:null; const w=Math.max(2,Math.round(100*Math.log(1+s[1])/Math.log(1+mx)));
+  return `<div class="frow ${last?'money':''}"><div><div class="fl">${i+1}. ${s[0]}</div><div class="fs">${i?'прошли '+pct(s[1],prev)+' от предыдущей строки':'всё, что шло в лайве за 7 дней'}</div><div class="fb"><i style="width:${w}%"></i></div></div><div class="fn">${fmt(s[1])}</div></div>`}).join('');
+ if(D.bank&&D.bank.yarusy){document.getElementById('bank-yar').textContent=fmt(D.bank.yarusy)+' ₽';document.getElementById('yarus-5').textContent=fmt(D.bank.yarus_5)+' ₽';}
+ document.getElementById('v-sile').innerHTML=SILA.map(s=>`<div class="check"><span><b>${s[0]}</b><br><span style="color:var(--ink2);font-size:14.5px">${s[1]}</span></span><span class="tag ok">с ${s[2]}</span></div>`).join('');
+ const tcards=[['1:1 в лигах списка','Счёт 1:1 с фаворитом, вердикт «ставить». Тенью с 16 октября.',D.teni.filter(t=>t.schet==='1:1')],
+  ['0:0 в лигах вне списка','Главные лиги 34 стран, фаворит до 1,50, без разбора.',D.teni.filter(t=>t.tip==='вне списка'&&t.schet==='0:0')],
   ['0:1 в лигах вне списка','Те же условия для 0:1.',D.teni.filter(t=>t.tip==='вне списка'&&t.schet==='0:1')],
-  ['Гол гостей до 65′ при 0:1','Включено 24.10 словом владельца. Автомат пишет, какие 0:1 отсеяны как поздние, через неделю сравним их итоги.',[]]];
+  ['0:1, гость фаворит и ведёт','В лигах списка. Отсев убирал такие матчи, а гол был в 6 из 6. Тенью с 24 октября.',D.teni.filter(t=>t.tip==='0:1 гость-фаворит')]];
  document.getElementById('teni-cards').innerHTML=tcards.map(c=>{const n=c[2].length,g=c[2].filter(t=>t.itog).length,roi=n?c[2].reduce((a,t)=>a+(t.itog?t.koef-1:-1),0)/n:0;
-  return `<div class="card"><span class="tag test">тень</span><h3 style="margin-top:12px">${c[0]}</h3><p style="color:var(--ink2);font-size:15.5px;margin:0 0 12px">${c[1]}</p>${n?`<div class="row"><span><b>${n}</b> матчей, гол в <b>${g}</b> (${pct(g,n)})</span><span class="${roi>=0?'w':'l'}">${(roi>=0?'+':'')+Math.round(roi*100)}% по ценам</span></div><div class="bar" style="margin-top:8px"><i style="width:${pct(g,n)}"></i></div>`:'<span class="tag wait">данных ещё нет</span>'}</div>`}).join('');
- document.getElementById('idei-cards').innerHTML=IDEI.map(i=>`<div class="card"><span class="tag ${tagCls(i[2])}">${i[3]}</span><h3 style="margin-top:12px">${i[0]}</h3><p style="margin:0;color:var(--ink2);font-size:15.5px">${i[1]}</p></div>`).join('');
+  return `<div class="card"><span class="tag test">тень</span><h3 style="margin-top:12px">${c[0]}</h3><p style="color:var(--ink2);font-size:15px;margin:0 0 12px">${c[1]}</p>${n?`<div class="row"><span><b>${n}</b> матчей, гол в <b>${g}</b> (${pct(g,n)})</span><span class="${roi>=0?'w':'l'}">${(roi>=0?'+':'')+Math.round(roi*100)}% по ценам</span></div><div class="bar" style="margin-top:8px"><i style="width:${pct(g,n)}"></i></div><div class="fs" style="color:var(--mute);font-size:13px;margin-top:6px">${roi>=0?'в плюсе, но мало матчей: ждём неделю':'денег не заслужила, остаётся тенью'}</div>`:'<span class="tag wait">данных ещё нет</span>'}</div>`}).join('');
+ const by=(key,val)=>{const r=y.filter(x=>key(x)===val);return {n:r.length,w:r.filter(x=>x.win).length,c:r.reduce((a,b)=>a+b.chistymi,0)}};
+ const s00=by(x=>x.schet,'0:0'), s01=by(x=>x.schet,'0:1'), hi=by(x=>x.uverennost>=70,true), mid=by(x=>x.uverennost>=65&&x.uverennost<70,true);
+ document.getElementById('insights').innerHTML=
+  `<div class="card insight"><div class="v ${s00.c>=0?'w':'l'}">${sign(s00.c)} ₽</div><b>Счёт 0:0 кормит</b><p style="margin:6px 0 0;color:var(--ink2);font-size:15px">${s00.n} ставок, гол в ${s00.w} (${pct(s00.w,s00.n)}). Это основной заработок.</p></div>`+
+  `<div class="card insight" style="border-color:var(--red)"><div class="v ${s01.c>=0?'w':'l'}">${sign(s01.c)} ₽</div><b>Счёт 0:1 пока в минусе</b><p style="margin:6px 0 0;color:var(--ink2);font-size:15px">${s01.n} ставок, гол в ${s01.w} (${pct(s01.w,s01.n)}). Минус сделали три крупные ступени старой лестницы, не процент попаданий.</p></div>`+
+  `<div class="card insight" style="border-color:var(--amber)"><div class="v">${pct(hi.w,hi.n)} против ${pct(mid.w,mid.n)}</div><b>Уверенность Claude не предсказывает</b><p style="margin:6px 0 0;color:var(--ink2);font-size:15px">При 70% и выше гол в ${hi.w} из ${hi.n}, при 65–69% в ${mid.w} из ${mid.n}. Отбирать по проценту уверенности нельзя.</p></div>`;
+ document.getElementById('idei-cards').innerHTML=IDEI.map(i=>`<div class="check"><span><b>${i[0]}</b><br><span style="color:var(--ink2);font-size:14.5px">${i[1]}</span></span><span class="tag ${tagCls(i[2])}">${i[3]}</span></div>`).join('');
  document.getElementById('zhurnal-list').innerHTML=ZHURNAL.map(z=>`<li><span class="d">${z[0]}</span><span class="t">${z[1]}</span></li>`).join('');
- const v=D.voronka, mx=v.prichiny[0][1];
- document.getElementById('voronka-card').innerHTML=`<div class="row"><h3>Матчей в лайве за ${v.dney} дней</h3><span class="tag">${fmt(v.matchey_v_layve)}</span></div>`+v.prichiny.map(p=>`<div style="margin-top:12px"><div class="row" style="font-size:15px"><span>${p[0]}</span><b>${fmt(p[1])}</b></div><div class="bar" style="margin-top:6px"><i style="width:${Math.round(100*p[1]/mx)}%"></i></div></div>`).join('');
  document.getElementById('ligi-card').innerHTML=Object.entries(D.ligi).map(([s,ls])=>`<details><summary>${s} <span class="tag" style="margin-left:auto;margin-right:10px">${ls.length}</span></summary><div style="color:var(--ink2);font-size:15px;padding:4px 0 8px">${ls.join(' · ')}</div></details>`).join('');
- const st=document.getElementById('f-strana'); [...new Set(D.kartochki.map(k=>strana(k.liga)))].sort().forEach(s=>{const o=document.createElement('option');o.textContent=s;st.appendChild(o)});
+ const sel=document.getElementById('f-strana'); [...new Set(D.kartochki.map(k=>strana(k.liga)))].sort().forEach(s=>{const o=document.createElement('option');o.textContent=s;sel.appendChild(o)});
 }
 
 function rows(){
@@ -277,6 +319,7 @@ document.getElementById('tabs').addEventListener('click',e=>{const b=e.target.cl
 document.getElementById('filters').addEventListener('change',render);
 const secs=[...document.querySelectorAll('section[id]')]; const links=[...document.querySelectorAll('nav.menu a')];
 addEventListener('scroll',()=>{const y=scrollY+90; let cur=secs[0].id; secs.forEach(s=>{if(s.offsetTop<=y)cur=s.id}); links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+cur))},{passive:true});
+if(location.search.includes('debug')){setTimeout(()=>{let worst=null,max=0;document.querySelectorAll('body *').forEach(e=>{const r=e.getBoundingClientRect();if(r.right>max){max=r.right;worst=e}});document.getElementById('obnovleno2').textContent='DEBUG sw='+document.documentElement.scrollWidth+' iw='+innerWidth+' worst='+(worst?worst.tagName+'.'+worst.className+'#'+worst.id+' right='+Math.round(max):'')},4000)}
 fetch('data.json?'+Date.now()).then(r=>r.json()).then(d=>{D=d; renderStatic(); render()});
 </script>
 </body>
